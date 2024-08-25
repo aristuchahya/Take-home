@@ -37,7 +37,7 @@ export class AuthService {
       user.fullName,
     );
 
-    console.log({ user, token });
+    
 
     return { user, token };
   }

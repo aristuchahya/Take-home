@@ -22,7 +22,7 @@ export function Login() {
               <form onSubmit={handleSubmit(onSubmit)}>
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
-                    <Label htmlFor="username">username</Label>
+                    <Label htmlFor="username">Username</Label>
                     <Input
                       id="username"
                       type="text"
@@ -39,16 +39,11 @@ export function Login() {
                   <div className="space-y-2">
                     <div className="flex items-center justify-between">
                       <Label htmlFor="password">Password</Label>
-                      <Link
-                        to="#"
-                        className="text-sm font-medium underline-offset-4 hover:underline"
-                      >
-                        Forgot password?
-                      </Link>
                     </div>
                     <Input
                       id="password"
                       type="password"
+                      placeholder="••••••••"
                       {...register("password")}
                       required
                     />
