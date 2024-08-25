@@ -8,3 +8,13 @@ export function PrivateRoute({ children }: { children: JSX.Element }) {
   }
   return children;
 }
+
+export function PublicRoute({ children }: { children: JSX.Element }) {
+  const { user } = useAuthStore();
+
+  if (user) {
+    return <Navigate to="/" replace />;
+  }
+
+  return children;
+}

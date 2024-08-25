@@ -1,6 +1,9 @@
 import { Dashboard } from "@/components/component/dashboard";
 import { Login } from "@/components/component/login";
-import { PrivateRoute } from "@/components/component/private-route";
+import {
+  PrivateRoute,
+  PublicRoute,
+} from "@/components/component/private-route";
 import { Register } from "@/components/component/register";
 import { createBrowserRouter } from "react-router-dom";
 
@@ -12,10 +15,10 @@ export const router = createBrowserRouter([
 
   {
     path: "/login",
-    element: <Login />,
+    element: <PublicRoute children={<Login />} />,
   },
   {
     path: "/register",
-    element: <Register />,
+    element: <PublicRoute children={<Register />} />,
   },
 ]);
