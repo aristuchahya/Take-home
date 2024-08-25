@@ -37,8 +37,6 @@ export class AuthService {
       user.fullName,
     );
 
-    
-
     return { user, token };
   }
 
