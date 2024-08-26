@@ -33,6 +33,7 @@ export const useLogin = () => {
       setUser({
         fullName: user.fullName,
         username: user.username,
+        token,
       });
 
       showToast("Login successfully", "success");

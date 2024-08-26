@@ -5,6 +5,8 @@ import { Button } from "../ui/button";
 import { useNavigate } from "react-router-dom";
 import { showToast } from "../ui/showtoast";
 
+import { MainChat } from "./chat/chat";
+
 export function Dashboard() {
   const { user, clearUser } = useAuthStore();
 
@@ -39,6 +41,8 @@ export function Dashboard() {
             </div>
           </CardContent>
         </Card>
+
+        <MainChat />
       </div>
     </>
   );
