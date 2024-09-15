@@ -12,6 +12,12 @@ export type LoginForm = {
   password: string;
 };
 
+export type JwtPayload = {
+  username: string;
+  fullName: string;
+  role: string;
+};
+
 export const registerSchema = z.object({
   fullName: z.string().min(1, { message: "Fullname at least 1 character" }),
   username: z.string().min(1, { message: "Username at least 1 character" }),

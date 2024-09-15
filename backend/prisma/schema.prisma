@@ -19,8 +19,81 @@ model Users {
   username  String   @unique
   email     String   @unique
   password  String
+  role      Role     @default(USER)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@map("users")
+}
+
+model Baby {
+  id     Int    @id @default(autoincrement())
+  name   String
+  age    Int
+  gender Gender
+
+  score     Float?
+  result    String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("baby")
+}
+
+model FuzzyVariable {
+  id               Int         @id @default(autoincrement())
+  name             String      @unique // Nama variabel harus unik (misalnya: "usia", "beratBadan", "tinggiBadan")
+  fuzzySets        FuzzySet[] // Relasi ke FuzzySet
+  fuzzyRulesUsia   FuzzyRule[] @relation("UsiaVariable") // Relasi ke FuzzyRule untuk usia
+  fuzzyRulesBerat  FuzzyRule[] @relation("BeratVariable") // Relasi ke FuzzyRule untuk berat
+  fuzzyRulesTinggi FuzzyRule[] @relation("TinggiVariable") // Relasi ke FuzzyRule untuk tinggi
+}
+
+model FuzzySet {
+  id               Int           @id @default(autoincrement())
+  name             String
+  lowerBound       Float
+  upperBound       Float
+  fuzzyVariableId  Int
+  fuzzyVariable    FuzzyVariable @relation(fields: [fuzzyVariableId], references: [id])
+  fuzzyRulesUsia   FuzzyRule[]   @relation("UsiaFuzzySet") // Relasi ke FuzzyRule untuk usia
+  fuzzyRulesBerat  FuzzyRule[]   @relation("BeratFuzzySet") // Relasi ke FuzzyRule untuk berat
+  fuzzyRulesTinggi FuzzyRule[]   @relation("TinggiFuzzySet") // Relasi ke FuzzyRule untuk tinggi
+
+  // Constraint unik gabungan untuk memastikan kombinasi name dan fuzzyVariableId unik
+  @@unique([name, fuzzyVariableId])
+}
+
+model FuzzyRule {
+  id               Int @id @default(autoincrement())
+  usiaVariableId   Int // ID untuk usia variable
+  usiaFuzzySetId   Int // ID untuk usia fuzzy set
+  beratVariableId  Int // ID untuk berat variable
+  beratFuzzySetId  Int // ID untuk berat fuzzy set
+  tinggiVariableId Int // ID untuk tinggi variable
+  tinggiFuzzySetId Int // ID untuk tinggi fuzzy set
+
+  output OutputType // Output yang merupakan enum (stunting atau normal)
+
+  usiaVariable   FuzzyVariable @relation("UsiaVariable", fields: [usiaVariableId], references: [id])
+  usiaFuzzySet   FuzzySet      @relation("UsiaFuzzySet", fields: [usiaFuzzySetId], references: [id], onDelete: Cascade)
+  beratVariable  FuzzyVariable @relation("BeratVariable", fields: [beratVariableId], references: [id])
+  beratFuzzySet  FuzzySet      @relation("BeratFuzzySet", fields: [beratFuzzySetId], references: [id], onDelete: Cascade)
+  tinggiVariable FuzzyVariable @relation("TinggiVariable", fields: [tinggiVariableId], references: [id])
+  tinggiFuzzySet FuzzySet      @relation("TinggiFuzzySet", fields: [tinggiFuzzySetId], references: [id], onDelete: Cascade)
+}
+
+enum OutputType {
+  STUNTING
+  NORMAL
+}
+
+enum Role {
+  ADMIN
+  USER
+}
+
+enum Gender {
+  LAKI_LAKI
+  PEREMPUAN
 }

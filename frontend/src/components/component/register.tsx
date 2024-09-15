@@ -10,13 +10,13 @@ export function Register() {
   return (
     <>
       <div className="grid min-h-screen w-full grid-cols-1 md:grid-cols-2">
-        <div className="flex flex-col items-center justify-center bg-[#B99470] p-8 text-primary-foreground md:p-12">
+        <div className="flex flex-col items-center justify-center bg-primary p-8 text-primary-foreground md:p-12">
           <div className="mx-auto max-w-[480px] space-y-6">
             <div className="space-y-2 text-center">
               <h1 className="text-4xl font-bold tracking-tight">
                 Create an Account
               </h1>
-              <p className="text-black">Sign up to get started</p>
+              <p className="text-white">Sign up to get started</p>
             </div>
             <Card>
               <form onSubmit={handleSubmit(onSubmit)}>
@@ -87,7 +87,7 @@ export function Register() {
               </form>
             </Card>
             <div className="mt-4 text-center text-sm">
-              <span className="text-black">Already have an account?</span>{" "}
+              <span className="text-white">Already have an account?</span>{" "}
               <Link
                 to="/login"
                 className="font-medium text-white hover:underline"
@@ -99,7 +99,7 @@ export function Register() {
         </div>
         <div className="hidden bg-muted md:block">
           <img
-            src="https://plus.unsplash.com/premium_photo-1670076513880-f58e3c377903?q=80&w=1436&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            src="https://images.unsplash.com/photo-1542385151-efd9000785a0?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fGJhYnl8ZW58MHx8MHx8fDA%3D"
             alt="Image"
             width="1920"
             height="1080"

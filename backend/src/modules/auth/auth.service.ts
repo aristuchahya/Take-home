@@ -3,7 +3,7 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
-import { LoginDto, RegisterDto } from './dto/create-auth.dto';
+import { LoginDto, RegisterDto, Role } from './dto/create-auth.dto';
 
 import { PrismaService } from 'src/common/services/prisma.service';
 import { JwtService } from '@nestjs/jwt';
@@ -18,7 +18,7 @@ export class AuthService {
     private readonly bcryptService: BcryptService,
   ) {}
   async register(registerDto: RegisterDto) {
-    const { fullName, username, email, password } = registerDto;
+    const { fullName, username, role, email, password } = registerDto;
 
     await this.ensureUserDoesNotExist(username, email);
 
@@ -29,12 +29,14 @@ export class AuthService {
       username,
       email,
       hashedPassword,
+      role,
     );
 
     const token = await this.generateToken(
       user.id,
       user.username,
       user.fullName,
+      user.role as Role,
     );
 
     return { user, token };
@@ -51,6 +53,7 @@ export class AuthService {
       user.id,
       user.username,
       user.fullName,
+      user.role as Role,
     );
 
     return { user, token };
@@ -81,11 +84,13 @@ export class AuthService {
     username: string,
     email: string,
     password: string,
+    role: Role = Role.USER,
   ) {
     return this.prisma.users.create({
       data: {
         fullName,
         username,
+        role,
         email,
         password,
       },
@@ -93,6 +98,7 @@ export class AuthService {
         id: true,
         username: true,
         fullName: true,
+        role: true,
       },
     });
   }
@@ -107,6 +113,7 @@ export class AuthService {
         fullName: true,
         username: true,
         email: true,
+        role: true,
         password: true,
       },
     });
@@ -125,11 +132,17 @@ export class AuthService {
     if (!isMatch) throw new UnauthorizedException('Invalid credentials');
   }
 
-  private generateToken(id: string, username: string, fullName: string) {
+  private generateToken(
+    id: string,
+    username: string,
+    fullName: string,
+    role: Role,
+  ) {
     const payload = {
       id,
       username,
       fullName,
+      role,
     };
 
     return this.jwtService.sign(payload);

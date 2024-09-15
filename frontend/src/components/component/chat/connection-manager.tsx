@@ -20,25 +20,25 @@ const ConnectionManager: React.FC<ConnectionManagerProps> = ({
   useEffect(() => {
     if (!token) return;
 
-    // Buat koneksi socket
+    
     const newSocket = createSocket(token);
     setSocket(newSocket);
-    onConnectionStatusChange(true); // Set status koneksi
+    onConnectionStatusChange(true); 
 
-    // Menangani event socket
+   
     newSocket.on("message", (data) => {
       onMessageReceived(data);
     });
 
-    // Pembersihan koneksi
+   
     return () => {
       newSocket.off("message");
       newSocket.close();
-      onConnectionStatusChange(false); // Set status koneksi
+      onConnectionStatusChange(false); 
     };
   }, [token, onMessageReceived, setSocket, onConnectionStatusChange]);
 
-  return null; // Tidak perlu render apa-apa
+  return null; 
 };
 
 export default ConnectionManager;
