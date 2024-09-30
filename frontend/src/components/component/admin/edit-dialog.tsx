@@ -27,7 +27,9 @@ export function EditDialog() {
     <>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-          <Button className="w-[120px] ">Tambah Aturan</Button>
+          <Button className="w-[120px] bg-white text-black border-none p-0 hover:bg-white ">
+            Tambah Aturan
+          </Button>
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>

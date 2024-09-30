@@ -1,22 +1,38 @@
-import { Controller, Post, Body, Param } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete } from '@nestjs/common';
 import { FuzzyDetectionService } from './fuzzy-detection.service';
-import { CreateFuzzyDetectionDto } from './dto/create-fuzzy-detection.dto';
-
 import { Public } from 'src/common/decorator/public.decorator';
+import { CreateFuzzyDetectionDto } from './dto/create-fuzzy-detection.dto';
 
 @Controller('fuzzy-detection')
 export class FuzzyDetectionController {
   constructor(private readonly fuzzyDetectionService: FuzzyDetectionService) {}
 
   @Public()
-  @Post(':babyId')
-  createDetectFuzzy(
-    @Body() createFuzzyDetectionDto: CreateFuzzyDetectionDto,
-    @Param('babyId') babyId: string,
+  @Post(':balitaId')
+  createMeasurement(
+    @Param('balitaId') balitaId: string,
+    @Body() fuzzyDetect: CreateFuzzyDetectionDto,
   ) {
-    return this.fuzzyDetectionService.detectFuzzyResult(
-      createFuzzyDetectionDto,
-      +babyId,
-    );
+    return this.fuzzyDetectionService.calculateFuzzy({
+      balitaId,
+      ...fuzzyDetect,
+    });
+  }
+
+  @Public()
+  @Get()
+  findAll() {
+    return this.fuzzyDetectionService.findAll();
+  }
+
+  @Public()
+  @Get(':balitaId')
+  findOne(@Param('balitaId') balitaId: string) {
+    return this.fuzzyDetectionService.findOne(balitaId);
+  }
+
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.fuzzyDetectionService.remove(+id);
   }
 }

@@ -1,15 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { BabyService } from './baby.service';
+import { FuzzyRuleService } from './fuzzy-rule.service';
 
-describe('BabyService', () => {
-  let service: BabyService;
+describe('FuzzyRuleService', () => {
+  let service: FuzzyRuleService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [BabyService],
+      providers: [FuzzyRuleService],
     }).compile();
 
-    service = module.get<BabyService>(BabyService);
+    service = module.get<FuzzyRuleService>(FuzzyRuleService);
   });
 
   it('should be defined', () => {

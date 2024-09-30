@@ -1,71 +1,129 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreateFuzzyDetectionDto } from './dto/create-fuzzy-detection.dto';
+import { Injectable } from '@nestjs/common';
 
 import { PrismaService } from 'src/common/services/prisma.service';
+import { CreateFuzzyDetectionDto } from './dto/create-fuzzy-detection.dto';
+import { OutputType } from '@prisma/client';
 
 @Injectable()
 export class FuzzyDetectionService {
   constructor(private readonly prisma: PrismaService) {}
-
-  async detectFuzzyResult(
-    fuzzyDetect: CreateFuzzyDetectionDto,
-    babyId: number,
-  ) {
-    const { usia, beratBadan, tinggiBadan } = fuzzyDetect;
+  async calculateFuzzy(FuzzyDetectionDto: CreateFuzzyDetectionDto) {
+    const { balitaId, date, currentWeight, currentHeight, currentAge } =
+      FuzzyDetectionDto;
 
     const fuzzyRules = await this.prisma.fuzzyRule.findMany({
-      include: {
-        usiaFuzzySet: true,
-        beratFuzzySet: true,
-        tinggiFuzzySet: true,
+      where: {
+        ageRange: this.getAgeRange(currentAge),
       },
     });
 
-    let result = 'NORMAL';
-    let maxMembership = 0;
-    let totalWeight = 0;
-    let totalWeightedOutput = 0;
+    const { output, score } = this.applyFuzzyLogic(
+      fuzzyRules,
+      currentWeight,
+      currentHeight,
+    );
+
+    const measurement = await this.prisma.measurement.create({
+      data: {
+        balitaId,
+        date,
+        currentWeight,
+        currentHeight,
+        currentAge,
+        outputFuzzy: output, // Simpan hasil fuzzy
+        fuzzyScore: score, // Simpan score
+      },
+    });
+
+    return measurement;
+  }
+
+  getAgeRange(ageInMonths: number): string {
+    if (ageInMonths <= 24) return '0-24';
+    if (ageInMonths <= 36) return '24-36';
+    return '37+';
+  }
+
+  applyFuzzyLogic(fuzzyRules, weight: number, height: number) {
+    let numerator = 0;
+    let denominator = 0;
 
     for (const rule of fuzzyRules) {
-      const usiaMatch =
-        rule.usiaFuzzySet.name.toLowerCase() === usia.toLowerCase();
-      const beratMatch =
-        rule.beratFuzzySet.name.toLowerCase() === beratBadan.toLowerCase();
-      const tinggiMatch =
-        rule.tinggiFuzzySet.name.toLowerCase() === tinggiBadan.toLowerCase();
+      console.log(`Evaluating Rule: ${JSON.stringify(rule)}`);
+      console.log(`Weight: ${weight}, Height: ${height}`);
 
-      if (usiaMatch && beratMatch && tinggiMatch) {
-        const ruleStrength = 1;
+      const weightDegree = this.getMembershipDegree(
+        weight,
+        rule.weightMin,
+        rule.weightMax,
+      );
+      const heightDegree = this.getMembershipDegree(
+        height,
+        rule.heightMin,
+        rule.heightMax,
+      );
 
-        const outputValue = rule.output === 'STUNTING' ? 0 : 1;
+      console.log(
+        `Weight Degree: ${weightDegree}, Height Degree: ${heightDegree}`,
+      );
 
-        totalWeight += ruleStrength;
-        console.log('totalWeight:', totalWeight);
+      if (rule.output === 'STUNTING') {
+        console.log(
+          `Weight Degree for Stunting: ${weightDegree}, Height Degree: ${heightDegree}`,
+        );
+      } else {
+        console.log(
+          `Weight Degree for Normal: ${weightDegree}, Height Degree: ${heightDegree}`,
+        );
+      }
 
-        totalWeightedOutput += ruleStrength * outputValue;
-        console.log('totalWeightedOutput:', totalWeightedOutput);
+      const degree = Math.min(weightDegree, heightDegree);
 
-        if (ruleStrength > maxMembership) {
-          maxMembership = ruleStrength;
-          result = rule.output;
-        }
+      if (degree > 0.1) {
+        const crispOutput = rule.output === 'STUNTING' ? 0 : 1;
+        numerator += degree * crispOutput;
+        denominator += degree;
+
+        console.log(
+          `Degree: ${degree}, Crisp Output: ${crispOutput}, Numerator: ${numerator}, Denominator: ${denominator}`,
+        );
       }
     }
 
-    const score = totalWeight === 0 ? 0 : totalWeightedOutput / totalWeight;
+    const score = denominator === 0 ? 0 : numerator / denominator;
+    console.log(
+      `Numerator: ${numerator}, Denominator: ${denominator}, Score: ${score}`,
+    );
 
-    const updatedBaby = await this.prisma.baby.update({
+    const output = score > 0.5 ? OutputType.NORMAL : OutputType.STUNTING;
+
+    return { output, score };
+  }
+
+  // Fungsi untuk menghitung derajat keanggotaan (membership degree)
+  getMembershipDegree(value: number, min: number, max: number): number {
+    if (value < min) return 0; // Completely outside the range
+    if (value > max) return 0; // Completely inside the range
+    const range = max - min;
+    return (value - min) / range;
+  }
+
+  findAll() {
+    return `This action returns all fuzzyDetection`;
+  }
+
+  async findOne(balitaId: string) {
+    return await this.prisma.measurement.findMany({
       where: {
-        id: babyId,
+        balitaId,
       },
-      data: {
-        score,
-        result,
+      orderBy: {
+        date: 'desc',
       },
     });
+  }
 
-    if (!updatedBaby) throw new NotFoundException('Baby not found');
-
-    return { result, score };
+  remove(id: number) {
+    return `This action removes a #${id} fuzzyDetection`;
   }
 }

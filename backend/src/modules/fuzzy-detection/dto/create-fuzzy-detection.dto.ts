@@ -1,5 +1,7 @@
 export class CreateFuzzyDetectionDto {
-  usia: string;
-  beratBadan: string;
-  tinggiBadan: string;
+  balitaId: string;
+  date: Date;
+  currentWeight: number;
+  currentHeight: number;
+  currentAge: number;
 }

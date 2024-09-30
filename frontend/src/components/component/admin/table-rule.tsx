@@ -45,6 +45,7 @@ import {
 } from "@/components/ui/select";
 import { useFuzzyRule } from "@/hooks/fuzzy/use-fuzzy-rule";
 import { EditDialog } from "./edit-dialog";
+import { Input } from "@/components/ui/input";
 
 export function TableRule() {
   const {
@@ -57,6 +58,7 @@ export function TableRule() {
     open,
     setOpen,
     handleDelete,
+    register,
   } = useFuzzyRule();
   return (
     <div className="absolute right-52 top-16">
@@ -79,149 +81,75 @@ export function TableRule() {
               </DialogHeader>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="grid gap-4 py-4">
-                  <div className="grid grid-cols-4 items-center gap-4">
+                  <div className="grid grid-cols-4 items-center gap-4 ">
                     <Label htmlFor="name" className="text-right">
-                      Variabel 1
+                      Range Usia (Bulan)
                     </Label>
                     <Select
-                      onValueChange={(value) => setValue("usiaVariable", value)}
+                      onValueChange={(value) => setValue("ageRange", value)}
                     >
-                      <SelectTrigger className="w-[180px]">
+                      <SelectTrigger className="w-[200px]">
                         <SelectValue placeholder="Pilih Variabel" />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectGroup>
-                          <SelectItem value="usia">Usia</SelectItem>
+                          <SelectItem value="0-24">0-24</SelectItem>
+                          <SelectItem value="25-36">25-36</SelectItem>
+                          <SelectItem value="37+">37+</SelectItem>
                         </SelectGroup>
                       </SelectContent>
                     </Select>
-                    {errors.usiaVariable && (
-                      <p>{errors.usiaVariable.message}</p>
-                    )}
+                    {errors.ageRange && <p>{errors.ageRange.message}</p>}
                   </div>
                   <div className="grid grid-cols-4 items-center gap-4">
                     <Label htmlFor="name" className="text-right">
-                      Usia
+                      Berat Badan Minimal
                     </Label>
-                    <Select
-                      onValueChange={(value) => setValue("usiaFuzzySet", value)}
-                    >
-                      <SelectTrigger className="w-[180px]">
-                        <SelectValue placeholder="Pilih Usia" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectGroup>
-                          <SelectItem value="muda">Muda(0-24 Bulan)</SelectItem>
-                          <SelectItem value="tua">Tua(24-36 Bulan)</SelectItem>
-                        </SelectGroup>
-                      </SelectContent>
-                    </Select>
-                    {errors.usiaFuzzySet && (
-                      <p>{errors.usiaFuzzySet.message}</p>
-                    )}
+                    <Input
+                      className="w-[200px]"
+                      type="number"
+                      step={0.01}
+                      {...register("weightMin", { valueAsNumber: true })}
+                    />
+                    {errors.weightMin && <p>{errors.weightMin.message}</p>}
                   </div>
                   <div className="grid grid-cols-4 items-center gap-4">
                     <Label htmlFor="name" className="text-right">
-                      Variabel 2
+                      Berat Badan Maksimal
                     </Label>
-                    <Select
-                      onValueChange={(value) =>
-                        setValue("beratVariable", value)
-                      }
-                    >
-                      <SelectTrigger className="w-[180px]">
-                        <SelectValue placeholder="Pilih Variabel" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectGroup>
-                          <SelectItem value="berat badan">
-                            Berat Badan
-                          </SelectItem>
-                        </SelectGroup>
-                      </SelectContent>
-                    </Select>
-                    {errors.beratVariable && (
-                      <p>{errors.beratVariable.message}</p>
-                    )}
+                    <Input
+                      className="w-[200px]"
+                      type="number"
+                      step={0.01}
+                      {...register("weightMax", { valueAsNumber: true })}
+                    />
+                    {errors.weightMax && <p>{errors.weightMax.message}</p>}
                   </div>
                   <div className="grid grid-cols-4 items-center gap-4">
                     <Label htmlFor="weight" className="text-right">
-                      Berat Badan
+                      Tinggi Badan Minimal
                     </Label>
-                    <Select
-                      onValueChange={(value) =>
-                        setValue("beratFuzzySet", value)
-                      }
-                    >
-                      <SelectTrigger className="w-[180px]">
-                        <SelectValue placeholder="Pilih Berat Badan" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectGroup>
-                          <SelectItem value="kurang">
-                            Kurang(0 - 8 kg)
-                          </SelectItem>
-                          <SelectItem value="normal">
-                            Normal(9 - 20 kg)
-                          </SelectItem>
-                        </SelectGroup>
-                      </SelectContent>
-                    </Select>
-                    {errors.beratFuzzySet && (
-                      <p>{errors.beratFuzzySet.message}</p>
-                    )}
+                    <Input
+                      className="w-[200px]"
+                      type="number"
+                      step={0.01}
+                      {...register("heightMin", { valueAsNumber: true })}
+                    />
+                    {errors.heightMin && <p>{errors.heightMin.message}</p>}
                   </div>
                   <div className="grid grid-cols-4 items-center gap-4">
                     <Label htmlFor="name" className="text-right">
-                      Variabel 3
+                      Tinggi Badan Maksimal
                     </Label>
-                    <Select
-                      onValueChange={(value) =>
-                        setValue("tinggiVariable", value)
-                      }
-                    >
-                      <SelectTrigger className="w-[180px]">
-                        <SelectValue placeholder="Pilih Variabel" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectGroup>
-                          <SelectItem value="tinggi badan">
-                            Tinggi Badan
-                          </SelectItem>
-                        </SelectGroup>
-                      </SelectContent>
-                    </Select>
-                    {errors.tinggiVariable && (
-                      <p>{errors.tinggiVariable.message}</p>
-                    )}
+                    <Input
+                      className="w-[200px]"
+                      type="number"
+                      step={0.01}
+                      {...register("heightMax", { valueAsNumber: true })}
+                    />
+                    {errors.heightMax && <p>{errors.heightMax.message}</p>}
                   </div>
-                  <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="weight" className="text-right">
-                      Tinggi Badan
-                    </Label>
-                    <Select
-                      onValueChange={(value) =>
-                        setValue("tinggiFuzzySet", value)
-                      }
-                    >
-                      <SelectTrigger className="w-[180px]">
-                        <SelectValue placeholder="Pilih Tinggi Badan" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectGroup>
-                          <SelectItem value="kurang">
-                            Kurang(0 - 68 cm)
-                          </SelectItem>
-                          <SelectItem value="normal">
-                            Normal(71 - 95 cm)
-                          </SelectItem>
-                        </SelectGroup>
-                      </SelectContent>
-                    </Select>
-                    {errors.tinggiFuzzySet && (
-                      <p>{errors.tinggiFuzzySet.message}</p>
-                    )}
-                  </div>
+
                   <div className="grid grid-cols-4 items-center gap-4">
                     <Label htmlFor="weight" className="text-right">
                       Output
@@ -229,7 +157,7 @@ export function TableRule() {
                     <Select
                       onValueChange={(value) => setValue("output", value)}
                     >
-                      <SelectTrigger className="w-[180px]">
+                      <SelectTrigger className="w-[200px]">
                         <SelectValue placeholder="Pilih Output" />
                       </SelectTrigger>
                       <SelectContent>
@@ -263,11 +191,14 @@ export function TableRule() {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Usia</TableHead>
-                <TableHead>Berat Badan</TableHead>
-
+                <TableHead className="w-[100px]">Usia</TableHead>
+                <TableHead>Berat Badan Minimal</TableHead>
+                <TableHead>Berat Badan Maksimal</TableHead>
                 <TableHead className="hidden md:table-cell">
-                  Tinggi Badan
+                  Tinggi Badan Minimal
+                </TableHead>
+                <TableHead className="hidden md:table-cell">
+                  Tinggi Badan Maksimal
                 </TableHead>
                 <TableHead className="hidden md:table-cell ">Output</TableHead>
                 <TableHead>
@@ -277,17 +208,22 @@ export function TableRule() {
             </TableHeader>
             <TableBody>
               {data?.map((item) => (
-                <TableRow>
+                <TableRow key={item.id}>
+                  <TableCell className="font-medium">{item.ageRange}</TableCell>
                   <TableCell className="font-medium">
-                    {item.usiaFuzzySet.name}
-                  </TableCell>
-                  <TableCell className="font-medium">
-                    {item.beratFuzzySet.name}
+                    {item.weightMin}
                   </TableCell>
 
                   <TableCell className="hidden md:table-cell">
-                    {item.tinggiFuzzySet.name}
+                    {item.weightMax}
                   </TableCell>
+                  <TableCell className="hidden md:table-cell">
+                    {item.heightMin}
+                  </TableCell>
+                  <TableCell className="hidden md:table-cell">
+                    {item.heightMax}
+                  </TableCell>
+
                   <TableCell className="hidden md:table-cell">
                     {item.output.toLowerCase()}
                   </TableCell>

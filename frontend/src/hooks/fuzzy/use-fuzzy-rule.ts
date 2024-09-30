@@ -8,7 +8,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 
 const getFuzzyRules = async () => {
   try {
-    const response = await axiosClient.get("/rule-base");
+    const response = await axiosClient.get("/fuzzy-rule");
     console.log("data fuzzy rule:", response.data);
     return response.data;
   } catch (error) {
@@ -17,8 +17,13 @@ const getFuzzyRules = async () => {
 };
 
 const createFuzzyRule = async (data: FuzzyRule) => {
-  const response = await axiosClient.post("/rule-base/fuzzy-rule", data);
-  return response.data;
+  try {
+    const response = await axiosClient.post("/fuzzy-rule", data);
+    console.log("add data fuzzy rule:", response.data);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
 };
 export const useFuzzyRule = () => {
   const queryClient = useQueryClient();
@@ -40,7 +45,10 @@ export const useFuzzyRule = () => {
   });
 
   const { mutate, isPending } = useMutation<FuzzyRule, Error, FuzzyRule>({
-    mutationKey: ["fuzzy-rule"],
+    mutationFn: async (data: FuzzyRule) => {
+      return await createFuzzyRule(data);
+    },
+
     onSuccess: () => {
       showToast("Create Fuzzy Rule Successfully", "success");
       queryClient.invalidateQueries({ queryKey: ["fuzzy-rule"] });
@@ -51,7 +59,6 @@ export const useFuzzyRule = () => {
     onError: () => {
       showToast("Create Fuzzy Rule Failed", "error");
     },
-    mutationFn: createFuzzyRule,
   });
 
   useEffect(() => {
@@ -60,13 +67,13 @@ export const useFuzzyRule = () => {
     }
   }, [isSuccess]);
 
-  const onSubmit: SubmitHandler<FuzzyRule> = async (data) => {
+  const onSubmit: SubmitHandler<FuzzyRule> = (data) => {
     mutate(data);
   };
 
   const handleDelete = async (id: string) => {
     try {
-      await axiosClient.delete(`/rule-base/fuzzy-rule/${id}`);
+      await axiosClient.delete(`/fuzzy-rule/${id}`);
       showToast("Delete Fuzzy Rule Successfully", "success");
       queryClient.invalidateQueries({ queryKey: ["fuzzy-rule"] });
     } catch {
