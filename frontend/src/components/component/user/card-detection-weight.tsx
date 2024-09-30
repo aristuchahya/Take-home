@@ -8,18 +8,11 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Input } from "@/components/ui/input"; // Pastikan Anda mengimpor Input
 import { useBeratForm } from "@/hooks/detection/use-berat-form";
 
 export function CardDetectionWeight() {
-  const { setValue, handleSubmit, onSubmit, errors } = useBeratForm();
+  const { setValue, handleSubmit, onSubmit, errors} = useBeratForm();
   return (
     <>
       <div className="w-full flex items-center justify-center h-screen">
@@ -32,19 +25,11 @@ export function CardDetectionWeight() {
             <CardContent>
               <div className="flex gap-4">
                 <Label className="mt-3">Rentang BB</Label>
-                <Select
-                  onValueChange={(value) => setValue("beratBadan", value)}
-                >
-                  <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Berat Badan" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      <SelectItem value="kurang">Kurang(0 - 8 kg)</SelectItem>
-                      <SelectItem value="normal">Normal(9 - 24 kg)</SelectItem>
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
+                <Input
+                  placeholder="Contoh: 0 - 8 kg"
+                  type="text" // Ubah tipe input sesuai kebutuhan
+                  // {...register("beratBadan", { required: "Rentang berat badan harus diisi" })}
+                />
                 {errors.beratBadan && (
                   <p className="text-red-500">{errors.beratBadan.message}</p>
                 )}

@@ -34,10 +34,11 @@ export default function BalitaForm() {
             <CardContent>
               <div className="flex flex-col gap-4">
                 <div className="flex gap-4">
-                  <Label className="mt-3">Nama</Label>
+                  <Label className="mt-3 mr-12">Nama</Label>
                   <Input
                     placeholder="Nama Balita"
                     type="text"
+                    className="w-full"  
                     {...register("name")}
                   />
                   {errors.name && (
@@ -45,11 +46,25 @@ export default function BalitaForm() {
                   )}
                 </div>
                 <div className="flex gap-4">
-                  <Label className="mt-3">Umur</Label>
+                  <Label className="mt-3 mr-12">Umur</Label>
                   <Input
                     id="age"
                     placeholder="Umur Balita"
                     type="number"
+                    className="w-full"  
+                    {...register("age", { valueAsNumber: true })}
+                  />
+                  {errors.age && (
+                    <p className="text-red-500">{errors.age.message}</p>
+                  )}
+                </div>
+                <div className="flex gap-4">
+                  <Label className="mt-3 mr-8">Tanggal Lahir</Label>
+                  <Input
+                    id=""
+                    placeholder="Tanggal Lahir"
+                    type="date"
+                    className="w-full"  
                     {...register("age", { valueAsNumber: true })}
                   />
                   {errors.age && (
