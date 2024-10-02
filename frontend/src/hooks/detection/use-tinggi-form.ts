@@ -34,7 +34,7 @@ export const useTinggiForm = () => {
     return response.data;
   };
 
-  const { setValue, handleSubmit } = useForm<TinggiForm>({
+  const { register, setValue, handleSubmit, formState: {errors} } = useForm<TinggiForm>({
     mode: "onChange",
     resolver: zodResolver(TinggiFormSchema),
   });
@@ -62,5 +62,5 @@ export const useTinggiForm = () => {
     mutate();
   };
 
-  return { setValue, handleSubmit, onSubmit, result, isPending, isFetching };
+  return {register, setValue, handleSubmit, onSubmit, errors,result, isPending, isFetching };
 };

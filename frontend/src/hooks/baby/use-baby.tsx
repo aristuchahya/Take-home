@@ -9,7 +9,7 @@ import useFormStore from "../store/use-form-store";
 
 const getAllBaby = async () => {
   try {
-    const response = await axiosClient.get("/baby");
+    const response = await axiosClient.get("/balita");
     console.log("data baby:", response.data);
     return response.data;
   } catch (error) {
@@ -22,7 +22,7 @@ export const useBaby = () => {
   const queryClient = useQueryClient();
   const createBaby = async (data: BabyForm) => {
     try {
-      const response = await axiosClient.post("/baby", data);
+      const response = await axiosClient.post("/balita", data);
       console.log("create baby:", response.data);
       const babyId = response.data.id;
       setBabyId(babyId);

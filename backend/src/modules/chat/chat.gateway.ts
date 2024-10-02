@@ -36,7 +36,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
       message: `User left the chat: ${client.id}`,
     });
   }
-
+  
   @SubscribeMessage('newMessage')
   handleNewMessage(client: Socket, message: string) {
     const user = client.data.user;

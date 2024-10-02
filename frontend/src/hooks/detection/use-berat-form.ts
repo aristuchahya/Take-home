@@ -18,6 +18,7 @@ export const useBeratForm = () => {
   const { setBeratBadan } = useFormStore();
 
   const {
+    register,
     setValue,
     handleSubmit,
     formState: { errors },
@@ -33,5 +34,5 @@ export const useBeratForm = () => {
     navigate(`/height`);
   };
 
-  return { setValue, handleSubmit, onSubmit, errors };
+  return {register, setValue, handleSubmit, onSubmit, errors };
 };

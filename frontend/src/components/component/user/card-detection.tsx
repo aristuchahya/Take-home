@@ -8,11 +8,11 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input"; // Pastikan Anda mengimpor Input
+import { Input } from "@/components/ui/input"; 
 import { useUsiaForm } from "@/hooks/detection/use-usia-form";
 
 export function CardDetectionAge() {
-  const { setValue, handleSubmit, onSubmit, errors, register } = useUsiaForm();
+  const {handleSubmit, onSubmit, errors, register } = useUsiaForm();
   return (
     <>
       <div className="w-full flex items-center justify-center h-screen">

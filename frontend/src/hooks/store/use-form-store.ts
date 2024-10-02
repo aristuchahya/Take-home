@@ -34,7 +34,7 @@ const useFormStore = create<FormState>()(
         set((state) => ({ formData: { ...state.formData, tinggiBadan } })),
     }),
     { name: "form-store" }
-  ) // Nama store yang akan muncul di DevTools
+  ) 
 );
 
 export default useFormStore;
