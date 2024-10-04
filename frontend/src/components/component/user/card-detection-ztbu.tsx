@@ -9,29 +9,29 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useBirthHeightForm } from "@/hooks/detection/use-birthheight-form";
+import { useZsTbuForm } from "@/hooks/detection/use-zsTbu-form";
 
-export function CardDetectionBirthHeight() {
-  const { register, handleSubmit, onSubmit, errors } = useBirthHeightForm();
+export function CardDetectionZsTbu() {
+  const { register, handleSubmit, onSubmit, errors } = useZsTbuForm();
   return (
     <>
       <div className="w-full flex items-center justify-center h-screen">
         <Card>
           <CardHeader>
-            <CardTitle>Pertanyaan 2</CardTitle>
-            <CardDescription>Masukkan Tinggi Badan Saat Lahir</CardDescription>
+            <CardTitle>Pertanyaan 3</CardTitle>
+            <CardDescription>Masukkan ZTbu</CardDescription>
           </CardHeader>
           <form onSubmit={handleSubmit(onSubmit)}>
             <CardContent>
               <div className="flex gap-4">
-                <Label className="mt-3">TB Lahir</Label>
+                <Label className="mt-3">ZTbu</Label>
                 <Input
                   type="number"
                   step={0.01}
-                  {...register("birthHeight", { valueAsNumber: true })}
+                  {...register("zsTbu", { valueAsNumber: true })}
                 />
-                {errors.birthHeight && (
-                  <p className="text-red-500">{errors.birthHeight.message}</p>
+                {errors.zsTbu && (
+                  <p className="text-red-500">{errors.zsTbu.message}</p>
                 )}
               </div>
             </CardContent>

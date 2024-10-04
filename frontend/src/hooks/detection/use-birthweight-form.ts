@@ -4,35 +4,33 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-interface UsiaForm {
-  usia: string;
+interface BirthWeightForm {
+  birthWeight: number;
 }
 
-const UsiaFormSchema = z.object({
-  usia: z.string().min(1, {
-    message: "Usia is required",
-  }),
+const BirthWeightFormSchema = z.object({
+  birthWeight: z.number().min(1, { message: "Harus diisi" }),
 });
 
-export const useUsiaForm = () => {
+export const useBirthWeightForm = () => {
   const navigate = useNavigate();
-  const { setUsia, formData } = useFormStore();
+  const { setBirthWeight, formData } = useFormStore();
 
   const {
     register,
     setValue,
     handleSubmit,
     formState: { errors },
-  } = useForm<UsiaForm>({
+  } = useForm<BirthWeightForm>({
     mode: "onChange",
-    resolver: zodResolver(UsiaFormSchema),
+    resolver: zodResolver(BirthWeightFormSchema),
   });
 
-  const onSubmit: SubmitHandler<UsiaForm> = async (data) => {
-    console.log("Usia:", data.usia);
-    setUsia(data.usia);
+  const onSubmit: SubmitHandler<BirthWeightForm> = async (data) => {
+    console.log("Usia:", data.birthWeight);
+    setBirthWeight(data.birthWeight);
     console.log("Current Form Data:", formData);
-    navigate("/weight");
+    navigate("/height");
   };
 
   return {

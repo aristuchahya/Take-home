@@ -7,47 +7,32 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { useUsiaForm } from "@/hooks/detection/use-usia-form";
 
-export function CardDetectionAge() {
-  const { setValue, handleSubmit, onSubmit, errors, register } = useUsiaForm();
+import { useBirthWeightForm } from "@/hooks/detection/use-birthweight-form";
+
+export function CardDetectionBirthWeight() {
+  const { register, handleSubmit, onSubmit, errors } = useBirthWeightForm();
   return (
     <>
       <div className="w-full flex items-center justify-center h-screen">
         <Card>
           <CardHeader>
-            <CardTitle>Pernyataan 1</CardTitle>
-            <CardDescription>Masukkan Rentang Usia</CardDescription>
+            <CardTitle>Pertanyaan 1</CardTitle>
+            <CardDescription>Masukkan Berat badan saat lahir</CardDescription>
           </CardHeader>
           <form onSubmit={handleSubmit(onSubmit)}>
             <CardContent>
               <div className="flex gap-4">
-                <Label className="mt-3">Rentang Usia</Label>
-                <Select
-                  onValueChange={(value) => setValue("usia", value)}
-                  {...register("usia")}
-                >
-                  <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Pilih Usia" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      <SelectItem value="muda">Muda(0 - 24 Bulan)</SelectItem>
-                      <SelectItem value="tua">Tua(25 - 36 Bulan)</SelectItem>
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-                {errors.usia && (
-                  <p className="text-red-500">{errors.usia.message}</p>
+                <Label className="mt-3">BB Lahir</Label>
+                <Input
+                  type="number"
+                  step={0.01}
+                  {...register("birthWeight", { valueAsNumber: true })}
+                />
+                {errors.birthWeight && (
+                  <p className="text-red-500">{errors.birthWeight.message}</p>
                 )}
               </div>
             </CardContent>

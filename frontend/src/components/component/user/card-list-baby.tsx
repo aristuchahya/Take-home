@@ -77,10 +77,10 @@ export function CardListBaby() {
               <TableBody>
                 {data?.map((item) => (
                   <TableRow key={item.id}>
-                    <TableCell>{item.name}</TableCell>
-                    <TableCell>{item.age} Bulan</TableCell>
-                    <TableCell>{item.score}</TableCell>
-                    <TableCell>{item.result}</TableCell>
+                    <TableCell>{item.balita.name}</TableCell>
+                    <TableCell>{item.currentAge} Bulan</TableCell>
+                    <TableCell>{item.fuzzyScore}</TableCell>
+                    <TableCell>{item.outputFuzzy}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>

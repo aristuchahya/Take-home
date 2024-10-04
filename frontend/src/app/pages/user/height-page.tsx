@@ -1,5 +1,4 @@
-import { CardDetectionHeight } from "@/components/component/user/card-detection-height";
-
+import { CardDetectionBirthHeight } from "@/components/component/user/card-detection-weight";
 import { NavUser } from "@/components/component/user/nav-user";
 
 export function HeightPage() {
@@ -7,7 +6,7 @@ export function HeightPage() {
     <>
       <div>
         <NavUser />
-        <CardDetectionHeight />
+        <CardDetectionBirthHeight />
       </div>
     </>
   );

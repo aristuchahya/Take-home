@@ -13,7 +13,7 @@ export class FuzzyDetectionController {
     @Param('balitaId') balitaId: string,
     @Body() fuzzyDetect: CreateFuzzyDetectionDto,
   ) {
-    return this.fuzzyDetectionService.calculateFuzzy({
+    return this.fuzzyDetectionService.detectStunting({
       balitaId,
       ...fuzzyDetect,
     });

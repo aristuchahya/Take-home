@@ -7,45 +7,29 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { useTinggiForm } from "@/hooks/detection/use-tinggi-form";
-export function CardDetectionHeight() {
-  const { setValue, handleSubmit, onSubmit } = useTinggiForm();
+import { useZsBBuForm } from "@/hooks/detection/use-zsBBu-form";
+
+export function CardDetectionZsBBu() {
+  const { register, handleSubmit, onSubmit } = useZsBBuForm();
   return (
     <>
       <div className="w-full flex items-center justify-center h-screen">
         <Card>
           <CardHeader>
-            <CardTitle>Pernyataan 3</CardTitle>
-            <CardDescription>Masukkan Rentang Tinggi Badan</CardDescription>
+            <CardTitle>Pernyataan 4</CardTitle>
+            <CardDescription>Masukkan ZsBBu </CardDescription>
           </CardHeader>
           <form onSubmit={handleSubmit(onSubmit)}>
             <CardContent>
               <div className="flex gap-4">
-                <Label className="mt-3">Rentang TB</Label>
-                <Select
-                  onValueChange={(value) => setValue("tinggiBadan", value)}
-                >
-                  <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Tinggi Badan" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      <SelectItem value="kurang">Kurang(0 - 68 cm)</SelectItem>
-                      <SelectItem value="normal">
-                        Normal(69 - 100 cm)
-                      </SelectItem>
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
+                <Label className="mt-3">ZsBBu</Label>
+                <Input
+                  type="number"
+                  step={0.01}
+                  {...register("zsBBu", { valueAsNumber: true })}
+                />
               </div>
             </CardContent>
             <CardFooter className="border-t px-6 py-4">

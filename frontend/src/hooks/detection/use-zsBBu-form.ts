@@ -7,25 +7,23 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { showToast } from "@/components/ui/showtoast";
 import { z } from "zod";
 
-interface TinggiForm {
-  tinggiBadan: string;
+interface ZsBBuForm {
+  zsBBu: number;
 }
 
-const TinggiFormSchema = z.object({
-  tinggiBadan: z.string().min(1, {
-    message: "Tinggi badan is required",
-  }),
+const ZsBBuFormSchema = z.object({
+  zsBBu: z.number({ required_error: "Harus diisi" }),
 });
 
 const findResult = async (babyId: string) => {
-  const response = await axiosClient.get(`/baby/${babyId}`);
-  console.log(response.data);
+  const response = await axiosClient.get(`/fuzzy-detection/${babyId}`);
+  console.log("result:", response.data);
   return response.data;
 };
 
-export const useTinggiForm = () => {
+export const useZsBBuForm = () => {
   const navigate = useNavigate();
-  const { babyId, formData, setTinggiBadan } = useFormStore();
+  const { babyId, formData, setZsBBu } = useFormStore();
   console.log("Form:", formData);
 
   const createDetect = async (data: StoreFormData, babyId: string) => {
@@ -34,9 +32,9 @@ export const useTinggiForm = () => {
     return response.data;
   };
 
-  const { setValue, handleSubmit } = useForm<TinggiForm>({
+  const { register, handleSubmit } = useForm<ZsBBuForm>({
     mode: "onChange",
-    resolver: zodResolver(TinggiFormSchema),
+    resolver: zodResolver(ZsBBuFormSchema),
   });
 
   const { data: result, isFetching } = useQuery({
@@ -56,11 +54,11 @@ export const useTinggiForm = () => {
     },
   });
 
-  const onSubmit: SubmitHandler<TinggiForm> = async (data) => {
-    console.log("Tinggi Badan:", data.tinggiBadan);
-    setTinggiBadan(data.tinggiBadan);
+  const onSubmit: SubmitHandler<ZsBBuForm> = async (data) => {
+    console.log("Tinggi Badan:", data.zsBBu);
+    setZsBBu(data.zsBBu);
     mutate();
   };
 
-  return { setValue, handleSubmit, onSubmit, result, isPending, isFetching };
+  return { register, handleSubmit, onSubmit, result, isPending, isFetching };
 };
