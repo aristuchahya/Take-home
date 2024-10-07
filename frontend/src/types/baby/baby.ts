@@ -2,6 +2,7 @@ import { z } from "zod";
 
 type Balita = {
   name: string;
+  gender: string;
 };
 export type BabyForm = {
   id: string;

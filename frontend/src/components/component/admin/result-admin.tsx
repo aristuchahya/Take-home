@@ -91,11 +91,21 @@ export function ResultStunting() {
               <TableBody>
                 {data?.map((item) => (
                   <TableRow key={item.id}>
-                    <TableCell className="font-medium">{item.name}</TableCell>
-                    <TableCell className="font-medium">{item.age}</TableCell>
-                    <TableCell className="font-medium">{item.gender}</TableCell>
-                    <TableCell className="font-medium">{item.score}</TableCell>
-                    <TableCell className="font-medium">{item.result}</TableCell>
+                    <TableCell className="font-medium">
+                      {item.balita.name}
+                    </TableCell>
+                    <TableCell className="font-medium">
+                      {item.currentAge}
+                    </TableCell>
+                    <TableCell className="font-medium">
+                      {item.balita.gender}
+                    </TableCell>
+                    <TableCell className="font-medium">
+                      {item.fuzzyScore}
+                    </TableCell>
+                    <TableCell className="font-medium">
+                      {item.outputFuzzy}
+                    </TableCell>
 
                     <TableCell>
                       <DropdownMenu>
