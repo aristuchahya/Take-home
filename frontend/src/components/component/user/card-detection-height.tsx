@@ -29,6 +29,7 @@ export function CardDetectionZsBBu() {
                   type="number"
                   step={0.01}
                   {...register("zsBBu", { valueAsNumber: true })}
+                  placeholder="Masukkan Z Score berat badan"
                 />
               </div>
             </CardContent>

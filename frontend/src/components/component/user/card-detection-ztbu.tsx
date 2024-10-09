@@ -29,6 +29,7 @@ export function CardDetectionZsTbu() {
                   type="number"
                   step={0.01}
                   {...register("zsTbu", { valueAsNumber: true })}
+                  placeholder="Masukkan Z Score tinggi badan"
                 />
                 {errors.zsTbu && (
                   <p className="text-red-500">{errors.zsTbu.message}</p>
