@@ -8,7 +8,7 @@ import { Register } from "@/components/component/register";
 import { createBrowserRouter } from "react-router-dom";
 import { DashboardAdmin } from "./pages/admin/dashboard";
 import { TableRulePage } from "./pages/admin/table-rule";
-import { QuestionsPage } from "./pages/admin/table-questions";
+
 import { GetStarted } from "@/components/component/get-started";
 import { BiodataPage } from "./pages/user/biodata-page";
 
@@ -72,14 +72,14 @@ export const router = createBrowserRouter([
   },
 
   {
-    path: "/admin/variable",
+    path: "/admin/fuzzy-rule",
     element: <PrivateRoute children={<TableRulePage />} />,
   },
 
-  {
-    path: "/admin/table-questions",
-    element: <PrivateRoute children={<QuestionsPage />} />,
-  },
+  // {
+  //   path: "/admin/table-questions",
+  //   element: <PrivateRoute children={<QuestionsPage />} />,
+  // },
 
   {
     path: "/admin/dimension",

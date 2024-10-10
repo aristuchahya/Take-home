@@ -39,7 +39,9 @@ export class FuzzyRuleController {
     return this.fuzzyRuleService.findOne(id);
   }
 
+  @HttpCode(HttpStatus.OK)
   @Patch(':id')
+  @Public()
   updateFuzzyRule(
     @Param('id') id: string,
     @Body() data: Prisma.FuzzyRuleUpdateInput,

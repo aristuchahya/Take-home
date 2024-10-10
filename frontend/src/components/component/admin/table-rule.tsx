@@ -46,8 +46,11 @@ import {
 import { useFuzzyRule } from "@/hooks/fuzzy/use-fuzzy-rule";
 import { EditDialog } from "./edit-dialog";
 import { Input } from "@/components/ui/input";
+import { useFuzzyRuleUpdate } from "@/hooks/fuzzy/use-fuzzyRule-update";
+import { useState } from "react";
 
 export function TableRule() {
+  const [selectedItem, setSelectedItem] = useState(null);
   const {
     handleSubmit,
     errors,
@@ -60,6 +63,14 @@ export function TableRule() {
     handleDelete,
     register,
   } = useFuzzyRule();
+
+  const { handleEdit } = useFuzzyRuleUpdate();
+
+  const handleRowEdit = (item: any) => {
+    console.log("Editing item:", item);
+    setSelectedItem(item); // Set item yang akan diedit
+    handleEdit(item); // Panggil handleEdit untuk mengisi form
+  };
   return (
     <div className="absolute right-52 top-16">
       <Card className="w-[800px]">
@@ -241,8 +252,8 @@ export function TableRule() {
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                        <DropdownMenuItem>
-                          <EditDialog />
+                        <DropdownMenuItem onClick={() => handleRowEdit(item)}>
+                          Edit
                         </DropdownMenuItem>
                         <DropdownMenuItem onClick={() => handleDelete(item.id)}>
                           Delete
@@ -257,10 +268,11 @@ export function TableRule() {
         </CardContent>
         <CardFooter>
           <div className="text-xs text-muted-foreground">
-            Showing <strong>1-10</strong> of <strong>32</strong> products
+            Jumlah Fuzzy Rule {data?.length}
           </div>
         </CardFooter>
       </Card>
+      {selectedItem && <EditDialog selectedItem={selectedItem} />}
     </div>
   );
 }
